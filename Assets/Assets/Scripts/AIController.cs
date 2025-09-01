@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class AIController : MonoBehaviour
 {
-    [Header("Configurações")]
-    public float speed = 5.0f;
+    [Header("Config")]
+    public float speed = 5f;
     public float boundY = 4f;
+    public float reactionDelay = 0.1f;
     
     private Transform ball;
     private Rigidbody2D rb2d;
@@ -15,32 +16,26 @@ public class AIController : MonoBehaviour
         ball = GameObject.FindWithTag("Ball").transform;
     }
     
-    void Update()
+    void FixedUpdate()
     {
-        if (ball != null)
-        {
-            MoveTowardsBall();
-        }
-    }
-    
-    void MoveTowardsBall()
-    {
-        float targetY = ball.position.y;
-        float currentY = transform.position.y;
+        if (ball == null) return;
         
-        // Mover em direção à bola
-        if (Mathf.Abs(targetY - currentY) > 0.2f)
+        float targetY = ball.position.y;
+        float diff = targetY - transform.position.y;
+        
+        // AI só se move se a diferença for maior que o delay
+        if (Mathf.Abs(diff) > reactionDelay)
         {
-            float direction = Mathf.Sign(targetY - currentY);
-            rb2d.velocity = new Vector2(0, direction * speed);
+            float moveY = Mathf.Sign(diff) * speed;
+            rb2d.velocity = new Vector2(0, moveY);
         }
         else
         {
             rb2d.velocity = Vector2.zero;
         }
         
-        // Limitar posição
-        Vector2 pos = transform.position;
+        // Limita posição
+        Vector3 pos = transform.position;
         pos.y = Mathf.Clamp(pos.y, -boundY, boundY);
         transform.position = pos;
     }
