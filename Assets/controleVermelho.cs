@@ -5,20 +5,12 @@ using UnityEngine;
 public class controleVermelho : MonoBehaviour
 {
     [Header("Configurações de Movimento")]
-    public float mouseSmoothing = 8.0f;     // Suavização do movimento do mouse (mais alto = mais suave)
+    public float mouseSmoothing = 6.0f;     // Suavização do movimento do mouse (mais alto = mais suave)
 
     [Header("Limitadores do Campo")]
     public float boundY = 10f;            // Limites verticais (superior/inferior)
     public float boundXMin = -8.5f;         // Limite esquerdo (próximo da parede esquerda)
     public float boundXMax = -0.2f;         // Limite direito (meio do campo - impede atravessar)
-
-    [Header("Audio")]
-    public AudioSource audioSource;
-
-    void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     void Update()
     {
@@ -52,15 +44,6 @@ public class controleVermelho : MonoBehaviour
         clampedPos.x = Mathf.Clamp(clampedPos.x, boundXMin, boundXMax);
 
         return clampedPos;
-    }
-
-    // Detectar colisões para efeito sonoro
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        if (audioSource != null)
-        {
-            audioSource.Play();
-        }
     }
 
     // Método para ajustar limites dinamicamente (útil para diferentes tamanhos de campo)

@@ -5,10 +5,10 @@ using UnityEngine;
 public class ballControl : MonoBehaviour
 {
   [Header("Configurações da Bola")]
-  public float initialForce = 20f;
-  public float maxSpeed = 30f;
+  public float initialForce = 10f;
+  public float maxSpeed = 25f;
   public float minSpeed = 10f;
-  public float speedIncreasePerHit = 1.5f;
+  public float speedIncreasePerHit = 1.2f;
 
   [Header("Efeitos de Colisão")]
   public float paddleInfluence = 0.3f; // Influência da velocidade da raquete na bola
