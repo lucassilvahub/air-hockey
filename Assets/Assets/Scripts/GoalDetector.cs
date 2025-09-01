@@ -2,28 +2,39 @@ using UnityEngine;
 
 public class GoalDetector : MonoBehaviour
 {
-  [Header("Goal Settings")]
-  public bool isPlayerGoal = false; // false = AI goal, true = Player goal
-  public ParticleSystem goalEffect; // Opcional
+  [Header("Goal Area")]
+  public bool isPlayerGoal = false;
+  public float goalSize = 3f;
 
-  void OnTriggerEnter2D(Collider2D other)
+  void OnCollisionEnter2D(Collision2D other)
   {
-    if (other.CompareTag("Ball") && GameManager.instance != null)
+    if (other.gameObject.CompareTag("Ball"))
     {
-      // Efeito visual opcional
-      if (goalEffect != null)
-        goalEffect.Play();
+      float ballY = other.transform.position.y;
+      Debug.Log($"[DEBUG] Ball hit {gameObject.name} at Y: {ballY:F2}");
 
-      // Adiciona pontuação
-      if (isPlayerGoal)
-        GameManager.instance.AddScorePlayer();
+      // Auto-cria GameManager se não existir
+      if (GameManager.instance == null)
+      {
+        GameObject gm = new GameObject("GameManager");
+        gm.AddComponent<GameManager>();
+        Debug.Log("[FIX] GameManager created automatically!");
+      }
+
+      // Só conta gol se estiver no meio da parede
+      if (Mathf.Abs(ballY) <= goalSize / 2f)
+      {
+        Debug.Log($"[GOAL] {(isPlayerGoal ? "PLAYER" : "AI")} GOAL! Ball Y: {ballY:F2}, Goal Size: ±{goalSize / 2f:F2}");
+
+        if (isPlayerGoal)
+          GameManager.instance.AddScorePlayer();
+        else
+          GameManager.instance.AddScoreAI();
+      }
       else
-        GameManager.instance.AddScoreAI();
-
-      // Para a bola temporariamente
-      Rigidbody2D ballRb = other.GetComponent<Rigidbody2D>();
-      if (ballRb != null)
-        ballRb.velocity = Vector2.zero;
+      {
+        Debug.Log($"[NO GOAL] Ball outside goal area. Y: {ballY:F2}, Required: ±{goalSize / 2f:F2}");
+      }
     }
   }
 }
