@@ -6,10 +6,10 @@ public class ballControl : MonoBehaviour
     public float speed = 5f;
     public float maxSpeed = 12.5f;
     public AudioSource source;
-    
+
     private Rigidbody2D rb2d;
     private Vector2 startPos;
-    
+
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -17,7 +17,7 @@ public class ballControl : MonoBehaviour
         startPos = transform.position;
         LaunchBall();
     }
-    
+
     public void LaunchBall() // ← PÚBLICO agora
     {
         transform.position = startPos;
@@ -25,28 +25,35 @@ public class ballControl : MonoBehaviour
         float y = Random.Range(-0.5f, 0.5f);
         rb2d.velocity = new Vector2(x, y).normalized * speed;
     }
-    
+
     void OnCollisionEnter2D(Collision2D coll)
     {
         if (coll.gameObject.CompareTag("Player"))
         {
             source.Play();
-            
-            float diff = (transform.position.y - coll.transform.position.y) / 2f;
-            float dir = transform.position.x > 0 ? -1 : 1;
-            
-            rb2d.velocity = new Vector2(dir * speed, diff * speed);
+
+            // Pega a posição relativa do impacto
+            float diff = (transform.position.y - coll.transform.position.y) / coll.collider.bounds.size.y;
+
+            // Mantém a velocidade X, mas ajusta o Y
+            Vector2 newVel = rb2d.velocity;
+            newVel.y += diff * speed;
+
+            // Reforça a velocidade para não "morrer" após impacto
+            newVel = newVel.normalized * Mathf.Max(rb2d.velocity.magnitude, speed);
+
+            rb2d.velocity = newVel;
         }
     }
-    
+
     void FixedUpdate()
     {
         if (rb2d.velocity.magnitude > maxSpeed)
             rb2d.velocity = rb2d.velocity.normalized * maxSpeed;
-            
+
         if (Mathf.Abs(rb2d.velocity.x) < 1f)
             rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * speed, rb2d.velocity.y);
-            
+
         if (Mathf.Abs(transform.position.x) > 10f)
             LaunchBall();
     }
