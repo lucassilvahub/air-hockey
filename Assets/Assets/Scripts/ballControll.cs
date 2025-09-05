@@ -4,7 +4,7 @@ public class ballControl : MonoBehaviour
 {
     [Header("Config")]
     public float speed = 5f;
-    public float maxSpeed = 12f;
+    public float maxSpeed = 12.5f;
     public AudioSource source;
     
     private Rigidbody2D rb2d;
