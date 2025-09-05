@@ -385,7 +385,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1173fe23d57fd0f4d874902a5c4dd017, type: 3}
   m_Resource: {fileID: 8300000, guid: 1173fe23d57fd0f4d874902a5c4dd017, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -558,6 +558,7 @@ GameObject:
   m_Component:
   - component: {fileID: 508517284}
   - component: {fileID: 508517286}
+  - component: {fileID: 508517287}
   m_Layer: 0
   m_Name: RightWall
   m_TagString: Wall
@@ -626,6 +627,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &508517287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508517283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d336cca900a621a43b65457110ca4cea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerGoal: 1
+  goalSize: 3
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,6 +652,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -754,6 +770,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &519420033
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
 --- !u!1 &561085317
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 561085318}
   - component: {fileID: 561085320}
+  - component: {fileID: 561085321}
   m_Layer: 0
   m_Name: LeftWall
   m_TagString: Wall
@@ -832,6 +857,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &561085321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561085317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d336cca900a621a43b65457110ca4cea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerGoal: 0
+  goalSize: 3
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,6 +1060,7 @@ MonoBehaviour:
   boundY: 4.3
   boundXMin: -7.3
   boundXMax: 0
+  kickPower: 1.5
 --- !u!58 &708695607
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1251,6 +1291,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   boundY: 2.25
+  reactionDelay: 0.1
+  defenseX: 6
+  minDistance: 0.6
 --- !u!82 &890003899
 AudioSource:
   m_ObjectHideFlags: 0
